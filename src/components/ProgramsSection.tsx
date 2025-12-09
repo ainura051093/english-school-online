@@ -1,4 +1,4 @@
-import { BookOpen, GraduationCap, MessageCircle, Target } from "lucide-react";
+import { GraduationCap, MessageCircle, Target } from "lucide-react";
 
 const programs = [
   {
@@ -22,13 +22,6 @@ const programs = [
     features: ["Деловая лексика", "Презентации", "Переговоры"],
     color: "primary",
   },
-  {
-    icon: BookOpen,
-    title: "Английский для детей",
-    description: "Увлекательные занятия с игровыми элементами для школьников",
-    features: ["Игровой формат", "Помощь с школой", "Развитие интереса"],
-    color: "accent",
-  },
 ];
 
 const ProgramsSection = () => {
@@ -48,7 +41,7 @@ const ProgramsSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-3 gap-6">
           {programs.map((program, index) => (
             <div
               key={index}
