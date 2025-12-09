@@ -63,10 +63,10 @@ const ContactSection = () => {
                 <div>
                   <p className="text-sm text-muted-foreground">Email</p>
                   <a
-                    href="mailto:info@englishpro.kz"
+                    href="mailto:Kubayevaaiganym@gmail.com"
                     className="text-lg font-medium text-foreground hover:text-primary transition-colors"
                   >
-                    info@englishpro.kz
+                    Kubayevaaiganym@gmail.com
                   </a>
                 </div>
               </div>
