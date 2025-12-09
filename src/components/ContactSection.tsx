@@ -48,10 +48,10 @@ const ContactSection = () => {
                 <div>
                   <p className="text-sm text-muted-foreground">Телефон</p>
                   <a
-                    href="tel:+77001234567"
+                    href="tel:+77476746008"
                     className="text-lg font-medium text-foreground hover:text-primary transition-colors"
                   >
-                    +7 (700) 123-45-67
+                    +7 747 674 60 08
                   </a>
                 </div>
               </div>
