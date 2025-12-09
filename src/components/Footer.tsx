@@ -13,7 +13,7 @@ const Footer = () => {
               <BookOpen className="w-5 h-5 text-primary-foreground" />
             </div>
             <span className="text-xl font-bold">
-              English<span className="text-accent">Pro</span>
+              Smart English <span className="text-accent">Corner</span>
             </span>
           </a>
 
@@ -35,7 +35,7 @@ const Footer = () => {
 
           {/* Copyright */}
           <p className="text-sm text-primary-foreground/60">
-            © {currentYear} EnglishPro. Все права защищены.
+            © {currentYear} Smart English Corner. Все права защищены.
           </p>
         </div>
       </div>
