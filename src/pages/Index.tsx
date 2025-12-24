@@ -5,6 +5,7 @@ import PricingSection from "@/components/PricingSection";
 import BenefitsSection from "@/components/BenefitsSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const Index = () => {
   return (
@@ -16,6 +17,7 @@ const Index = () => {
       <BenefitsSection />
       <ContactSection />
       <Footer />
+      <WhatsAppButton />
     </main>
   );
 };
