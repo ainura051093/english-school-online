@@ -1,7 +1,19 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles, Users, Award } from "lucide-react";
+import { ArrowRight, Sparkles, Users, Award, MessageCircle, Send } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const HeroSection = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const whatsappUrl = "https://wa.me/77476746008";
+  const telegramUrl = "https://t.me/+77476746008";
+
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
       {/* Background Elements */}
@@ -32,7 +44,7 @@ const HeroSection = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button variant="hero" size="xl">
+              <Button variant="hero" size="xl" onClick={() => setIsDialogOpen(true)}>
                 Записаться на урок
                 <ArrowRight className="w-5 h-5" />
               </Button>
@@ -96,7 +108,7 @@ const HeroSection = () => {
                     </div>
                   </div>
 
-                  <Button variant="hero" className="w-full" size="lg">
+                  <Button variant="hero" className="w-full" size="lg" onClick={() => setIsDialogOpen(true)}>
                     Записаться бесплатно
                   </Button>
                 </div>
@@ -109,6 +121,39 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
+
+      {/* Messenger Choice Dialog */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-center text-xl">Выберите мессенджер</DialogTitle>
+          </DialogHeader>
+          <div className="grid grid-cols-2 gap-4 py-4">
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center gap-3 p-6 rounded-xl bg-green-500/10 hover:bg-green-500/20 border border-green-500/20 transition-all duration-300 hover:scale-105"
+            >
+              <div className="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center">
+                <MessageCircle className="w-7 h-7 text-white" />
+              </div>
+              <span className="font-medium text-foreground">WhatsApp</span>
+            </a>
+            <a
+              href={telegramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center gap-3 p-6 rounded-xl bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 transition-all duration-300 hover:scale-105"
+            >
+              <div className="w-14 h-14 rounded-full bg-blue-500 flex items-center justify-center">
+                <Send className="w-7 h-7 text-white" />
+              </div>
+              <span className="font-medium text-foreground">Telegram</span>
+            </a>
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
