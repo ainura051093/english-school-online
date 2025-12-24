@@ -1,31 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, MapPin, Phone, Send, MessageCircle } from "lucide-react";
+import { Mail, MapPin, Phone, Send } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 
 const ContactSection = () => {
   const { toast } = useToast();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "+7 ",
     message: "",
   });
 
-  const whatsappUrl = `https://wa.me/77476746008?text=${encodeURIComponent(`Здравствуйте! Меня зовут ${formData.name}. Мой номер: ${formData.phone}. ${formData.message || 'Хочу записаться на пробный урок.'}`)}`;
-  const telegramUrl = "https://t.me/+77476746008";
-
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
-    // Ensure +7 prefix is always present
     if (!value.startsWith("+7")) {
       value = "+7 " + value.replace(/^\+?7?\s*/, "");
     }
@@ -34,16 +23,20 @@ const ContactSection = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsDialogOpen(true);
-  };
-
-  const handleMessengerClick = () => {
+    
+    const telegramMessage = encodeURIComponent(
+      `Новая заявка на пробный урок!\n\nИмя: ${formData.name}\nТелефон: ${formData.phone}\n${formData.message ? `Сообщение: ${formData.message}` : ''}`
+    );
+    const telegramUrl = `https://t.me/+77476746008?text=${telegramMessage}`;
+    
+    window.open(telegramUrl, '_blank');
+    
     toast({
       title: "Заявка отправлена!",
       description: "Мы свяжемся с вами в ближайшее время",
     });
+    
     setFormData({ name: "", phone: "+7 ", message: "" });
-    setIsDialogOpen(false);
   };
 
   return (
@@ -167,40 +160,6 @@ const ContactSection = () => {
           </div>
         </div>
       </div>
-      {/* Messenger Choice Dialog */}
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-center text-xl">Выберите мессенджер</DialogTitle>
-          </DialogHeader>
-          <div className="grid grid-cols-2 gap-4 py-4">
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={handleMessengerClick}
-              className="flex flex-col items-center gap-3 p-6 rounded-xl bg-green-500/10 hover:bg-green-500/20 border border-green-500/20 transition-all duration-300 hover:scale-105"
-            >
-              <div className="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center">
-                <MessageCircle className="w-7 h-7 text-white" />
-              </div>
-              <span className="font-medium text-foreground">WhatsApp</span>
-            </a>
-            <a
-              href={telegramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={handleMessengerClick}
-              className="flex flex-col items-center gap-3 p-6 rounded-xl bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 transition-all duration-300 hover:scale-105"
-            >
-              <div className="w-14 h-14 rounded-full bg-blue-500 flex items-center justify-center">
-                <Send className="w-7 h-7 text-white" />
-              </div>
-              <span className="font-medium text-foreground">Telegram</span>
-            </a>
-          </div>
-        </DialogContent>
-      </Dialog>
     </section>
   );
 };
