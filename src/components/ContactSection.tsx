@@ -1,16 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Mail, MapPin, Phone, Send } from "lucide-react";
+import { Mail, MapPin, Phone, Send, MessageCircle } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 
 const ContactSection = () => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
     phone: "+7 ",
-    message: "",
+    email: "",
+    contactMethod: "whatsapp",
   });
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,22 +23,31 @@ const ContactSection = () => {
     setFormData({ ...formData, phone: value });
   };
 
+  const getContactMethodLabel = (method: string) => {
+    switch (method) {
+      case "whatsapp": return "WhatsApp";
+      case "telegram": return "Telegram";
+      case "call": return "Звонок";
+      default: return method;
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     const telegramMessage = encodeURIComponent(
-      `Новая заявка на пробный урок!\n\nИмя: ${formData.name}\nТелефон: ${formData.phone}\n${formData.message ? `Сообщение: ${formData.message}` : ''}`
+      `📩 Новая заявка!\n\n👤 Имя: ${formData.name}\n📞 Телефон: ${formData.phone}\n${formData.email ? `📧 Email: ${formData.email}\n` : ''}💬 Способ связи: ${getContactMethodLabel(formData.contactMethod)}`
     );
     const telegramUrl = `https://t.me/+77476746008?text=${telegramMessage}`;
     
     window.open(telegramUrl, '_blank');
     
     toast({
-      title: "Заявка отправлена!",
-      description: "Мы свяжемся с вами в ближайшее время",
+      title: "Спасибо! Ваша заявка отправлена.",
+      description: "Я свяжусь с вами в ближайшее время.",
     });
     
-    setFormData({ name: "", phone: "+7 ", message: "" });
+    setFormData({ name: "", phone: "+7 ", email: "", contactMethod: "whatsapp" });
   };
 
   return (
@@ -105,12 +116,12 @@ const ContactSection = () => {
           {/* Contact Form */}
           <div className="bg-card rounded-3xl p-8 md:p-10 shadow-card border border-border/50">
             <h3 className="text-2xl font-semibold mb-6 text-foreground">
-              Запишитесь на пробный урок
+              Оставьте заявку
             </h3>
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
                 <label className="block text-sm font-medium mb-2 text-foreground">
-                  Ваше имя
+                  Имя *
                 </label>
                 <Input
                   type="text"
@@ -126,7 +137,7 @@ const ContactSection = () => {
 
               <div>
                 <label className="block text-sm font-medium mb-2 text-foreground">
-                  Телефон
+                  Телефон *
                 </label>
                 <Input
                   type="tel"
@@ -140,19 +151,55 @@ const ContactSection = () => {
 
               <div>
                 <label className="block text-sm font-medium mb-2 text-foreground">
-                  Сообщение (необязательно)
+                  Email (по желанию)
                 </label>
-                <Textarea
-                  placeholder="Расскажите о ваших целях в изучении английского"
-                  value={formData.message}
+                <Input
+                  type="email"
+                  placeholder="example@mail.com"
+                  value={formData.email}
                   onChange={(e) =>
-                    setFormData({ ...formData, message: e.target.value })
+                    setFormData({ ...formData, email: e.target.value })
                   }
-                  rows={4}
+                  className="h-12"
                 />
               </div>
 
-              <Button type="submit" variant="hero" size="xl" className="w-full">
+              <div>
+                <label className="block text-sm font-medium mb-3 text-foreground">
+                  Способ связи *
+                </label>
+                <RadioGroup
+                  value={formData.contactMethod}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, contactMethod: value })
+                  }
+                  className="flex flex-wrap gap-4"
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="whatsapp" id="whatsapp" />
+                    <Label htmlFor="whatsapp" className="flex items-center gap-2 cursor-pointer">
+                      <MessageCircle className="w-4 h-4 text-green-500" />
+                      WhatsApp
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="telegram" id="telegram" />
+                    <Label htmlFor="telegram" className="flex items-center gap-2 cursor-pointer">
+                      <Send className="w-4 h-4 text-blue-500" />
+                      Telegram
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="call" id="call" />
+                    <Label htmlFor="call" className="flex items-center gap-2 cursor-pointer">
+                      <Phone className="w-4 h-4 text-primary" />
+                      Звонок
+                    </Label>
+                  </div>
+                </RadioGroup>
+              </div>
+
+              <Button type="submit" variant="hero" size="xl" className="w-full mt-6">
                 Отправить заявку
                 <Send className="w-5 h-5" />
               </Button>
